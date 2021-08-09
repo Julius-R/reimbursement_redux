@@ -1,0 +1,57 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+
+
+model users {
+  user_id Int @id @default(autoincrement())
+  user_uname String @unique
+  user_firstname String
+  user_lastname String
+  user_email String @unique
+  user_password String
+  user_role Roles @default(USER)
+  author reimbursements[] @relation(name: "author")
+  solver reimbursements[] @relation(name: "solver")
+}
+
+model reimbursements {
+  reimb_id Int @id @default(autoincrement())
+  reimb_amount Decimal
+  reimb_submitted DateTime @default(now())
+  reimb_resolved DateTime @default(now())
+  reimb_description String
+  reimb_author users @relation("author", fields: [reimb_author_id], references: [user_id])
+  reimb_author_id Int
+  reimb_solver users @relation("solver", fields: [reimb_solver_id], references: [user_id])
+  reimb_solver_id Int
+  reimb_status Statuses @default(PENDING)
+  reimb_type Types @default(OTHER)
+  }
+
+enum Types {
+  FOOD
+  LODGING
+  TRANSPORTATION
+  OTHER
+}
+
+enum Statuses {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum Roles {
+  USER
+  ADMIN
+}
