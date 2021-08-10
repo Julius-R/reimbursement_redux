@@ -10,16 +10,17 @@ async function handler(req, res) {
 
 	const { email, password } = req.body;
 
-	const user = await prisma.users.findUnique({
+	const user = await prisma.users.findMany({
 		where: {
 			user_email: email,
 			user_password: password
 		}
 	});
 
-	req.session.set("user", user);
+	req.session.set("user", user[0]);
+	console.log(user[0]);
 	await req.session.save();
-	res.send("Logged In");
+	res.send("session created");
 }
 
 export default withIronSession(handler, {
