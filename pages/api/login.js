@@ -19,6 +19,9 @@ async function handler(req, res) {
 
 	req.session.set("user", user[0]);
 	console.log(user[0]);
+	if (user[0] === undefined) {
+		return res.status(401).send("Unauthorized");
+	}
 	await req.session.save();
 	res.send("session created");
 }
