@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-async function handler(req, res) {
+export async function handler(req, res) {
 	if (!req.method === "POST") {
 		res.status(405).send("Method not allowed");
 	}
