@@ -28,7 +28,7 @@ model reimbursements {
   reimb_id Int @id @default(autoincrement())
   reimb_amount Decimal
   reimb_submitted DateTime @default(now())
-  reimb_resolved DateTime?
+  reimb_resolved DateTime? @updatedAt
   reimb_description String
   reimb_author users @relation("author", fields: [reimb_author_id], references: [user_id])
   reimb_author_id Int

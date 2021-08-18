@@ -44,6 +44,7 @@ export const getServerSideProps = withSession(async function ({ req, res }) {
 		data = await client.reimbursements.findMany({
 			where: {
 				reimb_author_id: user.user_id
+				
 			}
 		});
 	}

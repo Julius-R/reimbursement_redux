@@ -1,16 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import {
 	useColorModeValue,
 	FormControl,
 	FormLabel,
-	Input,
 	Button,
 	Grid,
 	GridItem,
 	Spinner,
 	Textarea,
-	Heading,
 	Select,
 	NumberInput,
 	NumberInputField,
@@ -18,6 +16,7 @@ import {
 	NumberIncrementStepper,
 	NumberDecrementStepper
 } from "@chakra-ui/react";
+import Reimbursement from "./Reimbursement";
 
 export default function User({ user, reimbursements }) {
 	const formBackground = useColorModeValue("gray.100", "gray.700");
@@ -124,7 +123,14 @@ export default function User({ user, reimbursements }) {
 					</Button>
 				</form>
 			</GridItem>
-			<GridItem colSpan={2}>Current Reimbursements</GridItem>
+			<GridItem colSpan={2}>
+				{reimbursements.map((reimbursement) => (
+					<Reimbursement
+						key={reimbursement.reimb_id}
+						reimbursement={reimbursement}
+					/>
+				))}
+			</GridItem>
 		</Grid>
 	);
 }
