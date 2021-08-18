@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import {
 	useColorModeValue,
@@ -19,7 +19,7 @@ import {
 	NumberDecrementStepper
 } from "@chakra-ui/react";
 
-export default function User({ user }) {
+export default function User({ user, reimbursements }) {
 	const formBackground = useColorModeValue("gray.100", "gray.700");
 	const {
 		register,
@@ -29,6 +29,13 @@ export default function User({ user }) {
 		formState: { errors }
 	} = useForm();
 	const [buttonClicked, setbuttonClicked] = useState(false);
+
+	const onSubmit = (values) => {
+		setbuttonClicked(true);
+
+		reset();
+	};
+
 	return (
 		<Grid
 			as="section"
@@ -41,7 +48,11 @@ export default function User({ user }) {
 				colSpan={1}
 				background={formBackground}
 				p={6}>
-				<form>
+				{console.log(reimbursements)}
+				<form
+					onSubmit={handleSubmit(onSubmit)}
+					action="#"
+					method="POST">
 					<FormControl id="amount" isRequired>
 						<FormLabel>Amount</FormLabel>
 						<NumberInput mb={3}>
@@ -54,9 +65,8 @@ export default function User({ user }) {
 								})}
 								id="amount"
 								name="amount"
-								type="amount"
 								required
-								min={1}
+								min={0}
 								placeholder="$0.00"
 							/>
 							<NumberInputStepper>
@@ -68,7 +78,7 @@ export default function User({ user }) {
 					<FormControl id="category" isRequired>
 						<FormLabel as="label">Category</FormLabel>
 						<Select
-							placeholder="Select option"
+							placeholder="Select Category"
 							variant="filled"
 							size="lg"
 							{...register("category", {
@@ -78,10 +88,12 @@ export default function User({ user }) {
 							name="category"
 							required
 							mb={3}>
-							<option value="option1">Option 1</option>
-							<option value="option2">Option 2</option>
-							<option value="option3">Option 3</option>
-							<option value="option3">Option 3</option>
+							<option value="FOOD">FOOD</option>
+							<option value="LODGING">LODGING</option>
+							<option value="TRANSPORTATION">
+								TRANSPORTATION
+							</option>
+							<option value="OTHER">OTHER</option>
 						</Select>
 					</FormControl>
 					<FormControl id="description" isRequired>
