@@ -28,7 +28,6 @@ export default function Login() {
 	const onSubmit = (values) => {
 		setbuttonClicked(true);
 		if (!!values.password.trim()) {
-			console.log(values);
 			fetch("/api/login", {
 				body: JSON.stringify(values),
 				method: "POST",
