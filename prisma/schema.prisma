@@ -26,7 +26,7 @@ model users {
 
 model reimbursements {
   reimb_id Int @id @default(autoincrement())
-  reimb_amount Decimal
+  reimb_amount Float
   reimb_submitted DateTime @default(now())
   reimb_resolved DateTime? @updatedAt
   reimb_description String

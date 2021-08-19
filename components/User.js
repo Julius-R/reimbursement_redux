@@ -1,3 +1,4 @@
+import toast, { Toaster } from "react-hot-toast";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import {
@@ -23,15 +24,35 @@ export default function User({ user, reimbursements }) {
 	const {
 		register,
 		handleSubmit,
-		setError,
 		reset,
 		formState: { errors }
 	} = useForm();
 	const [buttonClicked, setbuttonClicked] = useState(false);
 
 	const onSubmit = (values) => {
+		const data = {
+			reimb_amount: Number.parseFloat(values.amount),
+			reimb_type: values.category,
+			reimb_description: values.description,
+			reimb_author_id: user.user_id,
+			reimb_status: "PENDING"
+		};
 		setbuttonClicked(true);
-
+		fetch("/api/reimbursements", {
+			body: JSON.stringify(data),
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			}
+		})
+			.then((res) => {
+				setbuttonClicked(false);
+				const data = res;
+				return data;
+			})
+			.then((data) => {
+				console.log(data);
+			});
 		reset();
 	};
 
@@ -41,13 +62,13 @@ export default function User({ user, reimbursements }) {
 			templateColumns="repeat(3, 1fr)"
 			templateRows="repeat(2, 1fr)"
 			gap={4}>
+			<Toaster position="top-right" />
 			<GridItem
 				rounded={6}
 				rowSpan={2}
 				colSpan={1}
 				background={formBackground}
 				p={6}>
-				{console.log(reimbursements)}
 				<form
 					onSubmit={handleSubmit(onSubmit)}
 					action="#"
