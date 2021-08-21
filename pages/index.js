@@ -8,7 +8,7 @@ import { Container, Heading } from "@chakra-ui/react";
 export default function Home({ user, reimbursements }) {
 	return (
 		<Layout title="Home Page" isLoggedIn={true}>
-			<Container maxW="container.xl" p={10}>
+			<Container maxW="container.xl" mt={14}>
 				<Heading as="h1" mb={3}>
 					Welcome,{" "}
 					{user.user_firstname.charAt(0).toUpperCase() +
@@ -44,7 +44,6 @@ export const getServerSideProps = withSession(async function ({ req, res }) {
 		data = await client.reimbursements.findMany({
 			where: {
 				reimb_author_id: user.user_id
-				
 			}
 		});
 	}

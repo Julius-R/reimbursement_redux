@@ -34,7 +34,7 @@ const Layout = ({ title, children, isLoggedIn }) => {
 				borderBottom="2px"
 				borderBottomColor="green.400"
 				boxShadow="sm">
-				<Container maxW="container.xl">
+				<Container maxWidth="full" px={20}>
 					<Flex justifyContent="center" alignItems="center">
 						<Text fontSize="xl">This is the Box</Text>
 						<Spacer />

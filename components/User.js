@@ -1,4 +1,5 @@
 import toast, { Toaster } from "react-hot-toast";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import {
@@ -6,9 +7,10 @@ import {
 	FormControl,
 	FormLabel,
 	Button,
-	Grid,
-	GridItem,
+	Flex,
+	Box,
 	Spinner,
+	Spacer,
 	Textarea,
 	Select,
 	NumberInput,
@@ -28,10 +30,10 @@ export default function User({ user, reimbursements }) {
 		formState: { errors }
 	} = useForm();
 	const [buttonClicked, setbuttonClicked] = useState(false);
-
+	const router = useRouter();
 	const onSubmit = (values) => {
 		const data = {
-			reimb_amount: Number.parseFloat(values.amount),
+			reimb_amount: values.amount,
 			reimb_type: values.category,
 			reimb_description: values.description,
 			reimb_author_id: user.user_id,
@@ -47,28 +49,18 @@ export default function User({ user, reimbursements }) {
 		})
 			.then((res) => {
 				setbuttonClicked(false);
-				const data = res;
-				return data;
+				toast.success(`Reimbursement submitted successfully!`);
 			})
 			.then((data) => {
-				console.log(data);
+				router.replace(router.asPath);
 			});
 		reset();
 	};
 
 	return (
-		<Grid
-			as="section"
-			templateColumns="repeat(3, 1fr)"
-			templateRows="repeat(2, 1fr)"
-			gap={4}>
+		<Flex as="section" justifyContent="center" mt={6}>
 			<Toaster position="top-right" />
-			<GridItem
-				rounded={6}
-				rowSpan={2}
-				colSpan={1}
-				background={formBackground}
-				p={6}>
+			<Box rounded={6} background={formBackground} p={6} height="sm">
 				<form
 					onSubmit={handleSubmit(onSubmit)}
 					action="#"
@@ -80,9 +72,7 @@ export default function User({ user, reimbursements }) {
 								variant="filled"
 								size="lg"
 								type="amount"
-								{...register("amount", {
-									required: true
-								})}
+								{...register("amount", { required: true })}
 								id="amount"
 								name="amount"
 								required
@@ -101,9 +91,7 @@ export default function User({ user, reimbursements }) {
 							placeholder="Select Category"
 							variant="filled"
 							size="lg"
-							{...register("category", {
-								required: true
-							})}
+							{...register("category", { required: true })}
 							id="category"
 							name="category"
 							required
@@ -121,9 +109,7 @@ export default function User({ user, reimbursements }) {
 						<Textarea
 							variant="filled"
 							size="lg"
-							{...register("description", {
-								required: true
-							})}
+							{...register("description", { required: true })}
 							id="description"
 							name="description"
 							type="description"
@@ -143,15 +129,16 @@ export default function User({ user, reimbursements }) {
 						{buttonClicked && <Spinner ml={2} size="sm" />}
 					</Button>
 				</form>
-			</GridItem>
-			<GridItem colSpan={2}>
+			</Box>
+			<Spacer />
+			<Box colSpan={2}>
 				{reimbursements.map((reimbursement) => (
 					<Reimbursement
 						key={reimbursement.reimb_id}
 						reimbursement={reimbursement}
 					/>
 				))}
-			</GridItem>
-		</Grid>
+			</Box>
+		</Flex>
 	);
 }
