@@ -1,6 +1,6 @@
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import {
 	useColorModeValue,
@@ -31,7 +31,7 @@ export default function User({ user, reimbursements }) {
 	} = useForm();
 	const [buttonClicked, setbuttonClicked] = useState(false);
 	const router = useRouter();
-	const onSubmit = (values) => {
+	const onSubmit = async (values) => {
 		const data = {
 			reimb_amount: values.amount,
 			reimb_type: values.category,
@@ -40,22 +40,29 @@ export default function User({ user, reimbursements }) {
 			reimb_status: "PENDING"
 		};
 		setbuttonClicked(true);
-		fetch("/api/reimbursements", {
+		const res = await fetch("/api/reimbursements", {
 			body: JSON.stringify(data),
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json"
 			}
-		})
-			.then((res) => {
-				setbuttonClicked(false);
-				toast.success(`Reimbursement submitted successfully!`);
-			})
-			.then((data) => {
-				router.replace(router.asPath);
-			});
-		reset();
+		});
+		const databaseStatus = await res.json();
+
+		console.log(typeof databaseStatus);
+		setbuttonClicked(false);
+		toast.success(`Reimbursement submitted successfully!`);
+
+		await router.replace(router.asPath);
 	};
+
+	useEffect(() => {
+		reset({
+			amount: "0",
+			category: "",
+			description: ""
+		});
+	}, [reimbursements]);
 
 	return (
 		<Flex as="section" justifyContent="center" mt={6}>

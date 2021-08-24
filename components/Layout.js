@@ -36,7 +36,9 @@ const Layout = ({ title, children, isLoggedIn }) => {
 				boxShadow="sm">
 				<Container maxWidth="full" px={20}>
 					<Flex justifyContent="center" alignItems="center">
-						<Text fontSize="xl">This is the Box</Text>
+						<Text fontSize="xl">
+							[Insert Creative Name Here LLC]
+						</Text>
 						<Spacer />
 						{isLoggedIn && (
 							<Button

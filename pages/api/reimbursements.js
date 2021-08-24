@@ -19,10 +19,22 @@ export default async function handler(req, res) {
 					reimb_author_id
 				)}');`
 			);
-			res.send(result);
+			res.send("true");
 			return;
 
 		case "PATCH":
+			const { id, solver_id, status } = req.body;
+			const resultUpdate = await prisma.reimbursements.update({
+				where: {
+					reimb_id: id
+				},
+				data: {
+					reimb_status: status,
+					reimb_solver_id: solver_id
+				}
+			});
+			console.log(resultUpdate);
+			res.send("success");
 			return;
 		default:
 			res.status(405).send("Method not allowed");

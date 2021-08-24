@@ -1,12 +1,57 @@
-import withSession from "../lib/Session";
+import { useState } from "react";
+import { useRouter } from "next/router";
+import toast, { Toaster } from "react-hot-toast";
 import { useColorModeValue, Text, Box, Flex } from "@chakra-ui/react";
+import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
 
 export default function Admin({ user, reimbursements }) {
+	const router = useRouter();
+	// function to filter reimbursements by category
+	const filterReimbursements = (arr, filter) => {
+		const cleansedList = arr.filter((item) => {
+			return item.reimb_status === filter;
+		});
+		return cleansedList;
+	};
+	const [allReimbursements, setAllReimbursements] = useState(reimbursements);
+	// filter reimbursements and show these
+	const [filteredList, setFilteredList] = useState(
+		filterReimbursements(allReimbursements, "PENDING")
+	);
+
+	const handleSubmit = (e, status) => {
+		let data = {
+			id: e.reimb_id,
+			solver_id: user.user_id,
+			status: status
+		};
+
+		fetch("/api/reimbursements", {
+			body: JSON.stringify(data),
+			method: "PATCH",
+			headers: {
+				"Content-Type": "application/json"
+			}
+		}).then((res) => {
+			setFilteredList(
+				filteredList.filter((item) => {
+					return item.reimb_id !== e.reimb_id;
+				})
+			);
+			toast.success(`Reimbursement has been marked as ${status}`);
+			setTimeout(() => {
+				router.replace(router.asPath);
+			}, 2000);
+		});
+	};
+
 	return (
 		<>
-			{reimbursements.map((reimbursement) => {
+			<Toaster position="top-right" />
+			{filteredList.map((reimbursement) => {
 				return (
 					<Box
+						key={reimbursement.reimb_id}
 						mb={4}
 						px={8}
 						py={4}
@@ -50,12 +95,36 @@ export default function Admin({ user, reimbursements }) {
 							mt={4}>
 							<Text>Category: {reimbursement.reimb_type}</Text>
 
-							<Text>
-								{reimbursement.reimb_status != "PENDING" &&
-									`Resolved On: ${new Date(
-										reimbursement.reimb_resolved
-									).toLocaleString()}`}
-							</Text>
+							{reimbursement.reimb_status === "PENDING" ? (
+								<Text>
+									<CloseIcon
+										mr={5}
+										color="red.500"
+										onClick={() => {
+											handleSubmit(
+												reimbursement,
+												"REJECTED"
+											);
+										}}
+									/>
+									<CheckIcon
+										color="green.500"
+										onClick={() => {
+											handleSubmit(
+												reimbursement,
+												"APPROVED"
+											);
+										}}
+									/>
+								</Text>
+							) : (
+								<Text>
+									{reimbursement.reimb_status != "PENDING" &&
+										`Resolved On: ${new Date(
+											reimbursement.reimb_resolved
+										).toLocaleString()}`}
+								</Text>
+							)}
 						</Flex>
 					</Box>
 				);
