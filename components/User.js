@@ -49,11 +49,12 @@ export default function User({ user, reimbursements }) {
 		});
 		const databaseStatus = await res.json();
 
-		console.log(typeof databaseStatus);
 		setbuttonClicked(false);
 		toast.success(`Reimbursement submitted successfully!`);
 
-		await router.replace(router.asPath);
+		setTimeout(() => {
+			router.replace(router.asPath);
+		}, 2000);
 	};
 
 	useEffect(() => {
