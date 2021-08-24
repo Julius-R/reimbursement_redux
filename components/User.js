@@ -52,9 +52,7 @@ export default function User({ user, reimbursements }) {
 		setbuttonClicked(false);
 		toast.success(`Reimbursement submitted successfully!`);
 
-		setTimeout(() => {
-			router.replace(router.asPath);
-		}, 2000);
+		router.replace(router.asPath);
 	};
 
 	useEffect(() => {
