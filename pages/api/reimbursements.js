@@ -33,7 +33,6 @@ export default async function handler(req, res) {
 					reimb_solver_id: solver_id
 				}
 			});
-			console.log(resultUpdate);
 			res.send("success");
 			return;
 		default:

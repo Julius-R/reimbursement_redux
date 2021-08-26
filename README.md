@@ -1,30 +1,32 @@
-# Next.js + Tailwind CSS Example
+# Reimbursement Application
 
-This example shows how to use [Tailwind CSS](https://tailwindcss.com/) [(v2.2)](https://blog.tailwindcss.com/tailwindcss-2-2) with Next.js. It follows the steps outlined in the official [Tailwind docs](https://tailwindcss.com/docs/guides/nextjs).
+[View Live Version Here](https://reimbursementapp.herokuapp.com/)
 
-It uses the new [`Just-in-Time Mode`](https://tailwindcss.com/docs/just-in-time-mode) for Tailwind CSS.
+This project was a way for me to test multiple tools that I had an interest in working with.
+The project was built using Next.Js, Prisma, and with-iron-session.
 
-## Preview
+## Functionality
 
-Preview the example live on [StackBlitz](http://stackblitz.com/):
+Using the link above, you are able to view the finished result.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-tailwindcss)
+As an employee, you can log in to your account and submit reimbursements, as well as view the status of a reimbursement.
 
-## Deploy your own
+As an admin, you can approve or reject reimbursements.
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
+Logins:
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-tailwindcss&project-name=with-tailwindcss&repository-name=with-tailwindcss)
+```
+Admin
+email - mlh@g.com
+password - Wazowsky
 
-## How to use
+User
+email - sman@g.com
+password - Smandy
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
-
-```bash
-npx create-next-app --example with-tailwindcss with-tailwindcss-app
-# or
-yarn create next-app --example with-tailwindcss with-tailwindcss-app
 ```
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
-"# reimbursement_redux" 
+## Running Locally
+
+Since this is connected to an actual database, the env variables will not be shared.
+However, one is able to clone the repo and provide their own database information to test and use this project.

@@ -47,7 +47,6 @@ export default function User({ user, reimbursements }) {
 				"Content-Type": "application/json"
 			}
 		});
-		const databaseStatus = await res.json();
 
 		setbuttonClicked(false);
 		toast.success(`Reimbursement submitted successfully!`);
